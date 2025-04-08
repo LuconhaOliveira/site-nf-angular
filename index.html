@@ -5,58 +5,59 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js" integrity="sha512-KZmyTq3PLx9EZl0RHShHQuXtrvdJ+m35tuOiwlcZfs/rE7NZv29ygNA8SFCkMXTnYZQK2OX0Gm2qKGfvWEtRXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link rel="stylesheet" href="style.css">
     <script src="app.js"></script>
     
     <title>nf-angular</title>
 </head>
 <body>
-    <section ng-app="mainApp" ng-controller="controllerProducts">
+    <section ng-app="mainApp" ng-controller="controllerProducts" class="container-body">
+        <div class="add-product">
+            <h2>Nota fiscal</h2>
 
-        <h2>Nota fiscal</h2>
-        <p ng-bind="products"></p>
+            <form>
+                <h4>Adicionar produtos</h4>
+                <label>Nome:</label>
+                <input type="text" ng-model="productName" required/>
+                <label>Preço unidade:</label>
+                <input type="number" ng-model="productPriceUnity" required/>
+                <label>Quantidade:</label>
+                <input type="number" ng-model="productQuantity" required/>
+                <button ng-click="addProduct()">Adicionar</button><br />
+            </form>
+        </div>
 
-        <form>
-            <h4>Adicionar produtos</h4>
-            <label>Nome:</label>
-            <input type="text" ng-model="productName" required/>
-            <label>Preço unidade:</label>
-            <input type="number" ng-model="productPriceUnity" required/>
-            <label>Quantidade:</label>
-            <input type="number" ng-model="productQuantity" required/>
-            <button ng-click="addProduct()">Adicionar</button><br />
+        <div class="show-products">
+            <form class="filter">
+                <label>Filtro:</label>
+                <input type="text" ng-model="productFilter"/>
+            </form>
+            <table>
+                <tr>
+                    <th ng-click="orderByHeader('code')">Código</th>
+                    <th ng-click="orderByHeader('name')">Produto</th>
+                    <th ng-click="orderByHeader('priceUnity')">Preço unidade</th>
+                    <th ng-click="orderByHeader('quantity')">Quantidade</th>
+                    <th ng-click="orderByHeader('priceFinal')">Preço total</th>
+                </tr>
+                <tr ng-repeat="x in products | filter: productFilter | orderBy: orderByFilter">
+                    <th>{{$index+1}}</th>
+                    <th>{{x.name}}</th>
+                    <th>R{{x.priceUnity | currency}}</th>
+                    <th>{{x.quantity}}</th>
+                    <th>R{{x.priceFinal | currency}}</th>
+                </tr>
+            </table>
             <br />
-            <label>Filtro:</label>
-            <input type="text" ng-model="productFilter" />
-        </form>
-
-        <table>
-            <tr>
-                <th ng-click="orderByHeader('code')">Código</th>
-                <th ng-click="orderByHeader('name')">Produto</th>
-                <th ng-click="orderByHeader('priceUnity')">Preço unidade</th>
-                <th ng-click="orderByHeader('quantity')">Quantidade</th>
-                <th ng-click="orderByHeader('priceFinal')">Preço total</th>
-            </tr>
-            <tr ng-repeat="x in products | filter: productFilter | orderBy: orderByFilter">
-                <th>{{$index+1}}</th>
-                <th>{{x.name}}</th>
-                <th>R{{x.priceUnity | currency}}</th>
-                <th>{{x.quantity}}</th>
-                <th>R{{x.priceFinal | currency}}</th>
-            </tr>
-        </table>
-
-        <br />
-        <br />
-
-        <form>
-            <select ng-model="selectedProduct">
-                <option ng-repeat="x in products" value="{{$index}}">{{$index+1}}. {{x.name}}</option>
-            </select>
-            <button ng-click="deleteProduct()">Apagar</button>
-        </form>
+            <br />
+            <form>
+                <select ng-model="selectedProduct">
+                    <option ng-repeat="x in products" value="{{$index}}">{{$index+1}}. {{x.name}}</option>
+                </select>
+                <button ng-click="deleteProduct()">Apagar</button>
+            </form>
+        </div>
 
         
 

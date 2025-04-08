@@ -1,0 +1,51 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+button{
+    padding: 2px 5px;
+    border-radius: 8px;
+}
+
+input,select{
+    padding: 1px 2px;
+    border-radius: 7px;
+}
+
+.container-body{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 100vw;
+    height: 100vh;
+    background-color:antiquewhite;
+}
+
+.add-product{
+    width: 50%;
+    height: 40%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.add-product>form{
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.filter{
+    margin-bottom: 20px;
+}
+
+.show-products{
+    width: 50%;
+    height: 40%;
+    display: flex;
+    flex-direction: column;
+}
