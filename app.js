@@ -17,9 +17,6 @@ app.controller("controllerProducts",function($scope){
 
     $scope.products = [];
     $scope.newArray = [];
-    $scope.productName = "batata";
-    $scope.productPriceUnity = 2;
-    $scope.productQuantity = 3;
     $scope.addProduct=()=>{
         $scope.products.push(new Product($scope.productName,$scope.productPriceUnity,$scope.productQuantity));
         $scope.productName = "";
