@@ -1,34 +1,37 @@
-var mysql = require('mysql');
-const { resolve } = require('path');
+const express = require('express');
+const mysql = require('mysql2');
+const cors = require('cors');
 
-var con = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "root",
-  database: "dbNotasFiscaisTeste"
+const app = express();
+app.use(cors());
+app.use(express.json());
+
+const db = mysql.createConnection({
+  host: 'localhost',
+  user: 'root',
+  password: 'root',
+  database: 'dbnotasfiscais',
 });
 
-let a;
-
-con.connect(function(err) {
-    if (err) throw err;
-    con.query("SELECT nome,precoUnidade,quantidade,precoTotal FROM tbProdutos;", (err, result, fields)=> {
-        if (err) throw err;
-        a=result.map(row=>({...row}))[1];
-        resolve(a);
-        //console.log(result.map(row=>({...row}))[1]);
-    });
+// Teste de conexão
+db.connect(err => {
+  if (err) {
+    console.error('Erro ao conectar:', err);
+  } else {
+    console.log('Conectado ao MySQL');
+  }
 });
 
-(async () => {
-    try {
-      const a = await fetchData();
-      console.log(a);
-    } catch (err) {
-      console.error(err);
-    } finally {
-      con.end(); // Fechar a conexão
+// Rota para pegar dados
+app.get('/api/produto', (req, res) => {
+  db.query(`SELECT * FROM tbprodutos INNER JOIN tbnotasprodutos ON tbprodutos.idProduto = tbnotasprodutos.idProduto WHERE tbnotasprodutos.idNota = ${req};`, (err, results) => {//ta errado essa porra
+    if (err) {
+      return res.status(500).send(err);
     }
-  })();
+    res.json(results);
+  });
+});
 
-console.log(a);
+app.listen(3000, () => {
+  console.log('Servidor rodando na porta 3000');
+});
